@@ -46,7 +46,7 @@ function draw() {
     for (let hand of hands) {
       if (hand.confidence > 0.1) {
         // Get the position of the index finger (keypoint 8)
-        let indexFinger = hand.keypoints[8].position;
+        let indexFinger = hand.keypoints[8];
 
         // Check if the index finger is touching the circle
         let d = dist(indexFinger.x, indexFinger.y, circleX, circleY);
@@ -58,11 +58,92 @@ function draw() {
 
         // If dragging, move the circle and draw the trail
         if (isDragging) {
-          stroke(0, 0, 255); // Blue color for the trail
+          stroke(255, 0, 0); // Red color for the trail
           strokeWeight(2);
           line(circleX, circleY, indexFinger.x, indexFinger.y); // Draw trail
           circleX = indexFinger.x;
           circleY = indexFinger.y;
+        }
+
+        // Loop through keypoints and draw circles
+        for (let i = 0; i < hand.keypoints.length; i++) {
+          let keypoint = hand.keypoints[i];
+
+          // Color-code based on left or right hand
+          if (hand.handedness == "Left") {
+            fill(255, 0, 255);
+          } else {
+            fill(255, 255, 0);
+          }
+
+          noStroke();
+          circle(keypoint.x, keypoint.y, 16);
+        }
+
+        // Draw lines connecting keypoints 0 to 4
+        strokeWeight(2);
+        if (hand.handedness == "Left") {
+          stroke(255, 0, 255); // Left hand color
+        } else {
+          stroke(255, 255, 0); // Right hand color
+        }
+
+        for (let i = 0; i < 4; i++) {
+          let start = hand.keypoints[i];
+          let end = hand.keypoints[i + 1];
+          line(start.x, start.y, end.x, end.y);
+        }
+
+        // Draw lines connecting keypoints 5 to 8
+        if (hand.handedness == "Left") {
+          stroke(0, 255, 255); // Different color for left hand
+        } else {
+          stroke(0, 255, 0); // Different color for right hand
+        }
+
+        for (let i = 5; i < 8; i++) {
+          let start = hand.keypoints[i];
+          let end = hand.keypoints[i + 1];
+          line(start.x, start.y, end.x, end.y);
+        }
+
+        // Draw lines connecting keypoints 9 to 12
+        if (hand.handedness == "Left") {
+          stroke(255, 128, 0); // Orange color for left hand
+        } else {
+          stroke(0, 128, 255); // Blue color for right hand
+        }
+
+        for (let i = 9; i < 12; i++) {
+          let start = hand.keypoints[i];
+          let end = hand.keypoints[i + 1];
+          line(start.x, start.y, end.x, end.y);
+        }
+
+        // Draw lines connecting keypoints 13 to 16
+        if (hand.handedness == "Left") {
+          stroke(128, 0, 255); // Purple color for left hand
+        } else {
+          stroke(255, 255, 128); // Yellow color for right hand
+        }
+
+        for (let i = 13; i < 16; i++) {
+          let start = hand.keypoints[i];
+          let end = hand.keypoints[i + 1];
+          line(start.x, start.y, end.x, end.y);
+        }
+
+        // Draw lines connecting keypoints 17 to 20
+        if (hand.handedness == "Left") {
+          stroke(255, 0, 0); // Red color for left hand
+        } else {
+          stroke(0, 255, 255); // Cyan color for right hand
+        }
+
+        for (let i = 17; i < 20; i++) {
+          let start = hand.keypoints[i];
+          let end = hand.keypoints[i + 1];
+          line(start.x, start.y, end.x, end.y);
         }
       }
     }
