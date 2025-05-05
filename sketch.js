@@ -46,7 +46,7 @@ function draw() {
     for (let hand of hands) {
       if (hand.confidence > 0.1) {
         // Get the position of the index finger (keypoint 8)
-        let indexFinger = hand.keypoints[8].position; // Ensure we use the 'position' property
+        let indexFinger = hand.keypoints[8].position;
 
         // Check if the index finger is touching the circle
         let d = dist(indexFinger.x, indexFinger.y, circleX, circleY);
@@ -58,7 +58,7 @@ function draw() {
 
         // If dragging, move the circle and draw the trail
         if (isDragging) {
-          stroke(255, 0, 0); // Red color for the trail
+          stroke(0, 0, 255); // Blue color for the trail
           strokeWeight(2);
           line(circleX, circleY, indexFinger.x, indexFinger.y); // Draw trail
           circleX = indexFinger.x;
